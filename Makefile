@@ -53,31 +53,8 @@ clean-test: ## remove test and coverage artifacts
 lint: ## check style with flake8
 	flake8 --format=pylint `find smart404 -name '*.py' -type f -not -path '*/migrations/*'`
 
-test: ## run tests quickly with the default Python
-
-		python runtests.py
-
-test-all: ## run tests on every Python version with tox
+test:
 	tox
-
-coverage: ## check code coverage quickly with the default Python
-
-		coverage run --source smart404 runtests.py
-
-		coverage report -m
-		coverage html
-		$(BROWSER) htmlcov/index.html
-
-docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/smart404.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ smart404
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
-
-servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 release: dist
 	twine upload -r lukkien dist/*
