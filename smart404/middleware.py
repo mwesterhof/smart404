@@ -14,7 +14,7 @@ class Smart404Middleware(object):
                 site=request.site,
                 url=request.path
             )
-            if not created:
+            if not created and entry.redirect_to:
                 if entry.permanent:
                     response_class = HttpResponsePermanentRedirect
                 else:
